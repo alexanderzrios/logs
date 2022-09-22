@@ -1,0 +1,31 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                [%-15marker] %highlight(%-5level) %msg%n
+            </Pattern>
+        </layout>
+
+        <applicationId>gamification</applicationId>
+        <host>${rabbitMQHost:-localhost}</host>
+        <username>guest</username>
+        <password>guest</password>
+        <routingKeyPattern>%property{applicationId}.%p</routingKeyPattern>
+        <exchangeName>logs.topic</exchangeName>
+        <generateId>true</generateId>
+        <charset>UTF-8</charset>
+        <durable>true</durable>
+        <declareExchange>true</declareExchange>
+        <deliveryMode>PERSISTENT</deliveryMode>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
